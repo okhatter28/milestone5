@@ -1,0 +1,114 @@
+[
+  {
+    "objectID": "story.html#the-upward-shift-across-modern-games",
+    "href": "story.html#the-upward-shift-across-modern-games",
+    "title": "The Growing Swimmer",
+    "section": "The Upward Shift Across Modern Games",
+    "text": "The Upward Shift Across Modern Games\nOver the past six decades, elite competitive swimming has experienced a dramatic morphological shift. The graphic above tracks over 17,000 Olympic swimming competitor records between the 1960 Rome Games and the 2016 Rio Games. In 1960, the average male Olympic swimmer stood approximately 179 cm (5 ft 10 in) and the average female swimmer stood 167 cm (5 ft 6 in). By 2016, those averages rose to nearly 188 cm (6 ft 2 in) and 175 cm (5 ft 9 in), respectively.\nThis height expansion reflects how competitive advantages in aquatic propulsion compound with stature. Taller swimmers possess larger wingspans and bigger surface areas for hands and feet, which function effectively as larger paddles in the water. Moreover, longer torsos and limbs allow swimmers to begin their strokes further forward and travel further per stroke cycle, reducing drag relative to body mass.\nCrucially, this trend accelerated alongside the professionalization of Olympic scouting and specialized dryland training. Rather than swimming being a sport of general endurance, modern national development programs actively recruit athletes with long levers and hyper-mobile joints, shaping the modern Olympic pool into one of the tallest athlete cohorts in international sports."
+  },
+  {
+    "objectID": "milestone-4/about.html",
+    "href": "milestone-4/about.html",
+    "title": "About",
+    "section": "",
+    "text": "This project was developed by Omar Khater as part of Milestone 4 for data science coursework in quantitative reasoning and data visualization."
+  },
+  {
+    "objectID": "milestone-4/about.html#about-the-author",
+    "href": "milestone-4/about.html#about-the-author",
+    "title": "About",
+    "section": "",
+    "text": "This project was developed by Omar Khater as part of Milestone 4 for data science coursework in quantitative reasoning and data visualization."
+  },
+  {
+    "objectID": "milestone-4/about.html#project-scope",
+    "href": "milestone-4/about.html#project-scope",
+    "title": "About",
+    "section": "Project Scope",
+    "text": "Project Scope\nThis project studies how the body types of Olympic swimmers vary by event and change across eras. It uses height, weight, event, sex, and year to compare physical profiles without treating body type as a single ideal."
+  },
+  {
+    "objectID": "milestone-4/about.html#data-sources",
+    "href": "milestone-4/about.html#data-sources",
+    "title": "About",
+    "section": "Data Sources",
+    "text": "Data Sources\n\nOlympic Athlete Records: Historical dataset covering 120 years of Olympic competitions (271,116 records), sourced via TidyTuesday."
+  },
+  {
+    "objectID": "milestone-4/about.html#repository",
+    "href": "milestone-4/about.html#repository",
+    "title": "About",
+    "section": "Repository",
+    "text": "Repository\nThe source code and data pipeline for this Quarto website can be found on GitHub: okhatter28/milestone-4."
+  },
+  {
+    "objectID": "exploration.html",
+    "href": "exploration.html",
+    "title": "Explore Swimmers",
+    "section": "",
+    "text": "Use the interactive plot below to examine 2,487 Olympic swimming medalists:\n\nHover over any point to inspect the athlete’s name, Olympic Games, event, medal, height, and weight.\nClick or double-click stroke categories in the legend on the right to focus on a single discipline.\nClick and drag to zoom into any cluster of interest, and double-click the plot area to reset the view."
+  },
+  {
+    "objectID": "exploration.html#how-to-explore",
+    "href": "exploration.html#how-to-explore",
+    "title": "Explore Swimmers",
+    "section": "",
+    "text": "Use the interactive plot below to examine 2,487 Olympic swimming medalists:\n\nHover over any point to inspect the athlete’s name, Olympic Games, event, medal, height, and weight.\nClick or double-click stroke categories in the legend on the right to focus on a single discipline.\nClick and drag to zoom into any cluster of interest, and double-click the plot area to reset the view."
+  },
+  {
+    "objectID": "exploration.html#observations-from-the-data",
+    "href": "exploration.html#observations-from-the-data",
+    "title": "Explore Swimmers",
+    "section": "Observations from the Data",
+    "text": "Observations from the Data\n\nSprinters vs. Distance: Freestyle swimmers span the widest range, with sprint medalists clustering in higher height and weight ranges.\nStroke Differences: Breaststroke and Butterfly athletes exhibit dense clusters around 180–190 cm for men and 170–180 cm for women, reflecting the power demands of short-axis strokes."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "This project was developed by Omar Khater as part of Milestone 5 for data science coursework in quantitative reasoning and data visualization."
+  },
+  {
+    "objectID": "about.html#about-the-author",
+    "href": "about.html#about-the-author",
+    "title": "About",
+    "section": "",
+    "text": "This project was developed by Omar Khater as part of Milestone 5 for data science coursework in quantitative reasoning and data visualization."
+  },
+  {
+    "objectID": "about.html#project-scope",
+    "href": "about.html#project-scope",
+    "title": "About",
+    "section": "Project Scope",
+    "text": "Project Scope\nThis project studies how the body types of Olympic swimmers vary by event and change across eras. It uses height, weight, event, sex, and year to compare physical profiles without treating body type as a single ideal."
+  },
+  {
+    "objectID": "about.html#data-sources",
+    "href": "about.html#data-sources",
+    "title": "About",
+    "section": "Data Sources",
+    "text": "Data Sources\n\nOlympic Athlete Records: Historical dataset covering 120 years of Olympic competitions (271,116 records), sourced via TidyTuesday."
+  },
+  {
+    "objectID": "about.html#repository",
+    "href": "about.html#repository",
+    "title": "About",
+    "section": "Repository",
+    "text": "Repository\nThe source code and data pipeline for this Quarto website can be found on GitHub: okhatter28/milestone5."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "How Olympic Swimmers Have Changed",
+    "section": "",
+    "text": "The graphic displays 3,707 Olympic swimming athlete-event records across six individual events, with points colored by decade from the early 1900s through 2016. Across 120 years of competition, athlete bodies shifted distinctly upward in height and weight as training modernized and event specialization intensified."
+  },
+  {
+    "objectID": "milestone-4/index.html",
+    "href": "milestone-4/index.html",
+    "title": "How Olympic Swimmers Have Changed",
+    "section": "",
+    "text": "The graphic displays 3,707 Olympic swimming athlete-event records across six individual events, with points colored by decade from the early 1900s through 2016. Across 120 years of competition, athlete bodies shifted distinctly upward in height and weight as training modernized and event specialization intensified."
+  }
+]
