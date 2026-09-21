@@ -8,11 +8,12 @@ This project was developed by **Omar Khater** as part of Milestone 5 for data sc
 
 ## Project Scope
 
-This project studies how the body types of Olympic swimmers vary by event and change across eras. It uses height, weight, event, sex, and year to compare physical profiles without treating body type as a single ideal.
+This project examines anti-doping testing patterns and adverse analytical findings (AAFs) across competitive sports, linking testing regimes with athlete physiological profiles and sport-specific physical demands.
 
 ## Data Sources
 
 - **Olympic Athlete Records**: Historical dataset covering 120 years of Olympic competitions (271,116 records), sourced via [TidyTuesday](https://github.com/rfordatascience/tidytuesday/tree/master/data/2021/2021-07-27).
+- **Anti-Doping Statistics**: Testing figures, sample breakdowns, and adverse analytical findings from the [World Anti-Doping Agency (WADA)](https://www.wada-ama.org/en/resources/anti-doping-stats) and the [U.S. Anti-Doping Agency (USADA)](https://www.usada.org/news/testing-data/).
 
 ## Repository
 

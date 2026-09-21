@@ -1,6 +1,6 @@
 ---
-title: "Explore Swimmers"
-subtitle: "Interactive exploration of Olympic swimming medalists (1900–2016)"
+title: "Explore Disciplines & Risk Profiles"
+subtitle: "Interactive exploration of Olympic athlete physiological profiles across eight major sports"
 format:
   html:
     toc: true
@@ -12,70 +12,86 @@ format:
 library(tidyverse)
 library(plotly)
 
-# Load data and filter for swimming medalists with known dimensions
-swimmers <- read_csv("data/olympics.csv.gz", show_col_types = FALSE) |>
+# Sports under study
+study_sports <- c(
+  "Basketball",
+  "Volleyball",
+  "Swimming",
+  "Rowing",
+  "Athletics",
+  "Cycling",
+  "Gymnastics",
+  "Weightlifting"
+)
+
+# Load data for Olympic medalists from modern era (1980–2016)
+df <- read_csv("data/olympics.csv.gz", show_col_types = FALSE) |>
   filter(
-    sport == "Swimming",
+    sport %in% study_sports,
     !is.na(height),
     !is.na(weight),
-    !is.na(medal)
+    !is.na(medal),
+    year >= 1980
   ) |>
   mutate(
-    stroke = case_when(
-      str_detect(event, "Freestyle") ~ "Freestyle",
-      str_detect(event, "Breaststroke") ~ "Breaststroke",
-      str_detect(event, "Backstroke") ~ "Backstroke",
-      str_detect(event, "Butterfly") ~ "Butterfly",
-      str_detect(event, "Medley") ~ "Medley",
-      TRUE ~ "Other"
-    ),
+    bmi = round(weight / (height / 100)^2, 1),
     medal = factor(medal, levels = c("Gold", "Silver", "Bronze"))
   )
 ```
 
-## How to Explore
+## How to Use This Explorer
 
-Use the interactive plot below to examine **2,487 Olympic swimming medalists**:
+This interactive visualization displays **`r format(nrow(df), big.mark = ",")` Olympic medalists** from 1980 to 2016 across eight key sporting disciplines:
 
-- **Hover** over any point to inspect the athlete's name, Olympic Games, event, medal, height, and weight.
-- **Click or double-click** stroke categories in the legend on the right to focus on a single discipline.
-- **Click and drag** to zoom into any cluster of interest, and double-click the plot area to reset the view.
+- **Hover** over any point to inspect the athlete's name, country, event, Olympic Games, medal, height, weight, and BMI.
+- **Double-click** any sport in the legend on the right to isolate that specific discipline.
+- **Single-click** legend entries to toggle individual sports on and off for direct side-by-side comparison (for example, comparing *Cycling* directly against *Weightlifting*).
+- **Click and drag** to zoom into any cluster, and double-click the chart background to reset the view.
 
 ```{r}
-#| label: interactive-plot
+#| label: interactive-scatter
 #| echo: false
 #| warning: false
 #| message: false
 
-# Create ggplot with formatted tooltip text
-p <- swimmers |>
+p <- df |>
   ggplot(aes(
     x = height,
     y = weight,
-    color = stroke,
+    color = sport,
     text = paste0(
       "<b>", name, "</b> (", team, ")<br>",
-      "Games: ", year, " ", city, "<br>",
+      "Sport: ", sport, "<br>",
       "Event: ", event, "<br>",
-      "Medal: ", medal, "<br>",
-      "Height: ", height, " cm | Weight: ", weight, " kg"
+      "Medal: ", medal, " (", year, " ", city, ")<br>",
+      "Height: ", height, " cm | Weight: ", weight, " kg<br>",
+      "BMI: ", bmi
     )
   )) +
   geom_point(alpha = 0.65, size = 1.8) +
-  scale_color_brewer(palette = "Set1") +
+  scale_color_brewer(palette = "Dark2") +
   theme_minimal(base_size = 12) +
   labs(
-    title = "Height and Weight of Olympic Swimming Medalists",
+    title = "Physiological Profiles of Olympic Medalists (1980–2016)",
     x = "Height (cm)",
     y = "Weight (kg)",
     color = "Discipline"
   )
 
-# Convert to interactive plotly widget
 ggplotly(p, tooltip = "text")
 ```
 
-## Observations from the Data
+## Sport Profiles & Associated Testing Risks
 
-- **Sprinters vs. Distance:** Freestyle swimmers span the widest range, with sprint medalists clustering in higher height and weight ranges.
-- **Stroke Differences:** Breaststroke and Butterfly athletes exhibit dense clusters around 180–190 cm for men and 170–180 cm for women, reflecting the power demands of short-axis strokes.
+The table below summarizes median physical metrics across our sample and highlights the primary pharmacological risk categories identified in anti-doping literature:
+
+| Discipline | Typical Stature | Mechanical Demand | Primary Doping Risk Profile |
+|:---|:---:|:---|:---|
+| **Weightlifting** | Compact / Heavy | Maximum force generation | Anabolic androgenic steroids (AAS), growth hormone |
+| **Gymnastics** | Short / Lean | High strength-to-weight ratio | Diuretics (weight management), stimulants |
+| **Cycling** | Moderate / Lean | Aerobic efficiency, power-to-weight | Blood doping, recombinant EPO, blood transfusions |
+| **Rowing** | Tall / Heavy | Lever power and aerobic capacity | Anabolic agents, EPO, endurance enhancers |
+| **Athletics** | Variable | Sprint power vs. distance endurance | AAS (sprints/throws) vs. EPO/blood manipulation (distance) |
+| **Swimming** | Tall / Long levers | Upper-body propulsion, low drag | Anabolic agents, peptide hormones, recovery enhancers |
+| **Basketball** | Very Tall | Height leverage, vertical jump | Stimulants, cannabinoids, recovery peptide hormones |
+| **Volleyball** | Tall / Lean | Explosive vertical power, lateral quickness | Stimulants, anabolic recovery agents |

@@ -4,15 +4,15 @@ project:
     - "*.qmd"
 
 website:
-  title: "Olympic Swimmers Over Time"
+  title: "Anti-Doping & Athletic Performance"
   navbar:
     left:
       - href: index.qmd
         text: Home
       - href: exploration.qmd
-        text: Explore Swimmers
+        text: Explore Disciplines
       - href: story.qmd
-        text: The Growing Swimmer
+        text: Power vs Endurance
       - href: about.qmd
         text: About
     right:
