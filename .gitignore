@@ -1,0 +1,5 @@
+/.quarto/
+/_site/
+**/*.quarto_ipynb
+**/__pycache__/
+milestone-4/

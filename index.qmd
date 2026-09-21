@@ -1,0 +1,11 @@
+---
+title: "How Olympic Swimmers Have Changed"
+subtitle: "Body type, event specialization, and 120 years of competition"
+author: "Omar Khater"
+date: "September 2026"
+toc: false
+---
+
+![](figures/olympic_profiles.png)
+
+The graphic displays **3,707 Olympic swimming athlete-event records** across six individual events, with points colored by decade from the early 1900s through 2016. Across 120 years of competition, athlete bodies shifted distinctly upward in height and weight as training modernized and event specialization intensified.

@@ -1,0 +1,33 @@
+project:
+  type: website
+  render:
+    - "*.qmd"
+
+website:
+  title: "Olympic Swimmers Over Time"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: exploration.qmd
+        text: Explore Swimmers
+      - href: story.qmd
+        text: The Growing Swimmer
+      - href: about.qmd
+        text: About
+    right:
+      - icon: github
+        href: https://github.com/okhatter28/milestone5
+  page-footer:
+    left: "© 2026 Omar Khater"
+    right: "Built with Quarto & GitHub Pages"
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    smooth-scroll: true
+
+
+

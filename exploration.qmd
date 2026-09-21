@@ -1,0 +1,81 @@
+---
+title: "Explore Swimmers"
+subtitle: "Interactive exploration of Olympic swimming medalists (1900–2016)"
+format:
+  html:
+    toc: true
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(tidyverse)
+library(plotly)
+
+# Load data and filter for swimming medalists with known dimensions
+swimmers <- read_csv("data/olympics.csv.gz", show_col_types = FALSE) |>
+  filter(
+    sport == "Swimming",
+    !is.na(height),
+    !is.na(weight),
+    !is.na(medal)
+  ) |>
+  mutate(
+    stroke = case_when(
+      str_detect(event, "Freestyle") ~ "Freestyle",
+      str_detect(event, "Breaststroke") ~ "Breaststroke",
+      str_detect(event, "Backstroke") ~ "Backstroke",
+      str_detect(event, "Butterfly") ~ "Butterfly",
+      str_detect(event, "Medley") ~ "Medley",
+      TRUE ~ "Other"
+    ),
+    medal = factor(medal, levels = c("Gold", "Silver", "Bronze"))
+  )
+```
+
+## How to Explore
+
+Use the interactive plot below to examine **2,487 Olympic swimming medalists**:
+
+- **Hover** over any point to inspect the athlete's name, Olympic Games, event, medal, height, and weight.
+- **Click or double-click** stroke categories in the legend on the right to focus on a single discipline.
+- **Click and drag** to zoom into any cluster of interest, and double-click the plot area to reset the view.
+
+```{r}
+#| label: interactive-plot
+#| echo: false
+#| warning: false
+#| message: false
+
+# Create ggplot with formatted tooltip text
+p <- swimmers |>
+  ggplot(aes(
+    x = height,
+    y = weight,
+    color = stroke,
+    text = paste0(
+      "<b>", name, "</b> (", team, ")<br>",
+      "Games: ", year, " ", city, "<br>",
+      "Event: ", event, "<br>",
+      "Medal: ", medal, "<br>",
+      "Height: ", height, " cm | Weight: ", weight, " kg"
+    )
+  )) +
+  geom_point(alpha = 0.65, size = 1.8) +
+  scale_color_brewer(palette = "Set1") +
+  theme_minimal(base_size = 12) +
+  labs(
+    title = "Height and Weight of Olympic Swimming Medalists",
+    x = "Height (cm)",
+    y = "Weight (kg)",
+    color = "Discipline"
+  )
+
+# Convert to interactive plotly widget
+ggplotly(p, tooltip = "text")
+```
+
+## Observations from the Data
+
+- **Sprinters vs. Distance:** Freestyle swimmers span the widest range, with sprint medalists clustering in higher height and weight ranges.
+- **Stroke Differences:** Breaststroke and Butterfly athletes exhibit dense clusters around 180–190 cm for men and 170–180 cm for women, reflecting the power demands of short-axis strokes.

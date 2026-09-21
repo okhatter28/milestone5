@@ -1,0 +1,20 @@
+---
+title: "About"
+---
+
+## About the Author
+
+This project was developed by **Omar Khater** as part of Milestone 5 for data science coursework in quantitative reasoning and data visualization.
+
+## Project Scope
+
+This project studies how the body types of Olympic swimmers vary by event and change across eras. It uses height, weight, event, sex, and year to compare physical profiles without treating body type as a single ideal.
+
+## Data Sources
+
+- **Olympic Athlete Records**: Historical dataset covering 120 years of Olympic competitions (271,116 records), sourced via [TidyTuesday](https://github.com/rfordatascience/tidytuesday/tree/master/data/2021/2021-07-27).
+
+## Repository
+
+The source code and data pipeline for this Quarto website can be found on GitHub: [okhatter28/milestone5](https://github.com/okhatter28/milestone5).
+
