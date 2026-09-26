@@ -1,6 +1,6 @@
 ---
-title: "Explore Disciplines & Risk Profiles"
-subtitle: "Interactive exploration of Olympic athlete physiological profiles across eight major sports"
+title: "Explore Swimming Strokes"
+subtitle: "Interactive exploration of Olympic swimming medalists (1980–2016)"
 format:
   html:
     toc: true
@@ -12,41 +12,29 @@ format:
 library(tidyverse)
 library(plotly)
 
-# Sports under study
-study_sports <- c(
-  "Basketball",
-  "Volleyball",
-  "Swimming",
-  "Rowing",
-  "Athletics",
-  "Cycling",
-  "Gymnastics",
-  "Weightlifting"
-)
-
-# Load data for Olympic medalists from modern era (1980–2016)
 df <- read_csv("data/olympics.csv.gz", show_col_types = FALSE) |>
   filter(
-    sport %in% study_sports,
+    sport == "Swimming",
     !is.na(height),
     !is.na(weight),
     !is.na(medal),
     year >= 1980
   ) |>
   mutate(
+    stroke = case_when(
+      str_detect(event, "Open Water") ~ "Open Water",
+      str_detect(event, "Freestyle") ~ "Freestyle",
+      str_detect(event, "Backstroke") ~ "Backstroke",
+      str_detect(event, "Breaststroke") ~ "Breaststroke",
+      str_detect(event, "Butterfly") ~ "Butterfly",
+      str_detect(event, "Medley") ~ "Medley"
+    ),
     bmi = round(weight / (height / 100)^2, 1),
     medal = factor(medal, levels = c("Gold", "Silver", "Bronze"))
   )
 ```
 
-## How to Use This Explorer
-
-This interactive visualization displays **`r format(nrow(df), big.mark = ",")` Olympic medalists** from 1980 to 2016 across eight key sporting disciplines:
-
-- **Hover** over any point to inspect the athlete's name, country, event, Olympic Games, medal, height, weight, and BMI.
-- **Double-click** any sport in the legend on the right to isolate that specific discipline.
-- **Single-click** legend entries to toggle individual sports on and off for direct side-by-side comparison (for example, comparing *Cycling* directly against *Weightlifting*).
-- **Click and drag** to zoom into any cluster, and double-click the chart background to reset the view.
+Hover over any point to inspect an athlete's height, weight, and Olympic event. Use the legend on the right to toggle strokes or double-click to isolate one stroke.
 
 ```{r}
 #| label: interactive-scatter
@@ -58,40 +46,25 @@ p <- df |>
   ggplot(aes(
     x = height,
     y = weight,
-    color = sport,
+    color = stroke,
     text = paste0(
       "<b>", name, "</b> (", team, ")<br>",
-      "Sport: ", sport, "<br>",
+      "Stroke: ", stroke, "<br>",
       "Event: ", event, "<br>",
       "Medal: ", medal, " (", year, " ", city, ")<br>",
       "Height: ", height, " cm | Weight: ", weight, " kg<br>",
       "BMI: ", bmi
     )
   )) +
-  geom_point(alpha = 0.65, size = 1.8) +
+  geom_point(alpha = 0.7, size = 1.8) +
   scale_color_brewer(palette = "Dark2") +
   theme_minimal(base_size = 12) +
   labs(
-    title = "Physiological Profiles of Olympic Medalists (1980–2016)",
+    title = "Height and Weight of Olympic Swimming Medalists (1980–2016)",
     x = "Height (cm)",
     y = "Weight (kg)",
-    color = "Discipline"
+    color = "Stroke"
   )
 
 ggplotly(p, tooltip = "text")
 ```
-
-## Sport Profiles & Associated Testing Risks
-
-The table below summarizes median physical metrics across our sample and highlights the primary pharmacological risk categories identified in anti-doping literature:
-
-| Discipline | Typical Stature | Mechanical Demand | Primary Doping Risk Profile |
-|:---|:---:|:---|:---|
-| **Weightlifting** | Compact / Heavy | Maximum force generation | Anabolic androgenic steroids (AAS), growth hormone |
-| **Gymnastics** | Short / Lean | High strength-to-weight ratio | Diuretics (weight management), stimulants |
-| **Cycling** | Moderate / Lean | Aerobic efficiency, power-to-weight | Blood doping, recombinant EPO, blood transfusions |
-| **Rowing** | Tall / Heavy | Lever power and aerobic capacity | Anabolic agents, EPO, endurance enhancers |
-| **Athletics** | Variable | Sprint power vs. distance endurance | AAS (sprints/throws) vs. EPO/blood manipulation (distance) |
-| **Swimming** | Tall / Long levers | Upper-body propulsion, low drag | Anabolic agents, peptide hormones, recovery enhancers |
-| **Basketball** | Very Tall | Height leverage, vertical jump | Stimulants, cannabinoids, recovery peptide hormones |
-| **Volleyball** | Tall / Lean | Explosive vertical power, lateral quickness | Stimulants, anabolic recovery agents |

@@ -4,13 +4,13 @@ project:
     - "*.qmd"
 
 website:
-  title: "Anti-Doping & Athletic Performance"
+  title: "Olympic Swimming Bodies"
   navbar:
     left:
       - href: index.qmd
         text: Home
       - href: exploration.qmd
-        text: Explore Disciplines
+        text: Explore Strokes
       - href: story.qmd
         text: Power vs Endurance
       - href: about.qmd

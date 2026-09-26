@@ -1,17 +1,66 @@
 ---
-title: "Power vs. Endurance: The Dual Frontiers of Doping Incentives"
-subtitle: "How physiological constraints shape the pharmacology of performance enhancement"
+title: "Power vs. Endurance: Sprint vs. Distance Swimmers"
+subtitle: "Examining physiological trade-offs between explosive speed and aerobic efficiency"
 format:
   html:
     toc: true
+execute:
+  echo: false
+  warning: false
+  message: false
 ---
 
-![](figures/power_vs_endurance.png)
+```{r}
+#| label: sprint-vs-distance
+#| fig-width: 9
+#| fig-height: 5
 
-## Two Opposite Physiological Demands
+library(tidyverse)
 
-Athletic disciplines place starkly divergent mechanical constraints on the human body. As visualized above across more than 10,000 Olympic competitors between 1960 and 2016, weightlifters and cyclists occupy radically different physiological profiles. Weightlifters cluster heavily toward elevated body mass relative to height, prioritizing absolute cross-sectional muscle area to generate maximal ground-reaction force. In contrast, road and track cyclists cluster tightly within a narrow, lean corridor where extra upper-body mass represents dead weight that increases rolling resistance and aerodynamic drag.
+df <- read_csv("data/olympics.csv.gz", show_col_types = FALSE) |>
+  filter(sport == "Swimming", year >= 1980, !is.na(height), !is.na(weight)) |>
+  mutate(
+    discipline = case_when(
+      str_detect(event, "50 metres|100 metres Freestyle") ~ "Sprint (50m/100m)",
+      str_detect(event, "400 metres|800 metres|1,500 metres Freestyle") ~ "Distance (400m+)",
+      TRUE ~ NA_character_
+    ),
+    sex = if_else(sex == "M", "Men", "Women")
+  ) |>
+  filter(!is.na(discipline))
 
-These divergent biomechanical demands directly dictate the pharmacological incentives observed in anti-doping testing. In sports governed by raw power and short bursts of explosive torque—such as weightlifting, sprinting, and throwing—adverse analytical findings (AAFs) reported by the World Anti-Doping Agency (WADA) have historically been dominated by anabolic androgenic steroids (AAS) and human growth hormone (hGH). These substances directly stimulate muscle protein synthesis and accelerate musculoskeletal recovery from heavy resistance strain.
+medians <- df |>
+  group_by(sex, discipline) |>
+  summarize(height = median(height), weight = median(weight), .groups = "drop")
 
-Conversely, in aerobic endurance disciplines like cycling, distance running, and cross-country skiing, performance is capped by VO2 max, cardiac output, and oxygen delivery to slow-twitch muscle fibers. Consequently, performance enhancement in endurance disciplines centers on blood manipulation—including recombinant human erythropoietin (EPO), blood transfusions, and synthetic oxygen carriers. The distinct clustering in the data explains why anti-doping surveillance cannot apply a one-size-fits-all model: the physiological bottleneck of each sport determines the exact substances athletes are incentivized to pursue.
+ggplot(df, aes(x = height, y = weight, color = discipline)) +
+  geom_point(alpha = 0.3, size = 1.6) +
+  geom_point(
+    data = medians,
+    aes(x = height, y = weight, fill = discipline),
+    size = 4,
+    shape = 23,
+    color = "black",
+    stroke = 1.2
+  ) +
+  facet_wrap(~sex, scales = "free") +
+  scale_color_brewer(palette = "Set1") +
+  scale_fill_brewer(palette = "Set1") +
+  labs(
+    title = "Physiological Profiles of Olympic Freestyle Swimmers (1980-2016)",
+    subtitle = "Diamonds mark the median athlete in each event category",
+    x = "Height (cm)",
+    y = "Weight (kg)",
+    color = "Discipline",
+    fill = "Discipline"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## Physical Trade-offs in the Pool
+
+Freestyle events demand fundamentally different physical profiles depending on race distance:
+
+- **Sprinters (50m & 100m)** rely on explosive power and upper-body leverage to overcome water resistance over short distances. As seen above, medalists and competitors in sprint events are both taller and noticeably heavier.
+- **Distance swimmers (400m to 1,500m)** prioritize aerobic capacity and swimming efficiency. Carrying excess muscle mass increases drag and metabolic cost across a race lasting up to fifteen minutes, resulting in leaner, lighter body profiles.

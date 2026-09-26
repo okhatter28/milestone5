@@ -1,59 +1,50 @@
 ---
-title: "Performance Enhancement in Sports: Anti-Doping Testing Trends"
-subtitle: "Examining Physiological Baselines and Testing Patterns Across Competitive Disciplines"
+title: "Olympic Swimmers: Body Types Across Events and Eras"
 author: "Omar Khater"
 date: "September 2026"
+execute:
+  echo: false
+  warning: false
+  message: false
 ---
 
-::: {.callout-note}
-### Project Milestone
-This study investigates how anti-doping testing strategies and adverse analytical findings (AAFs) intersect with the physical demands and incentives across sports. The graphic below analyzes **95,256 athlete records** (from 271,116 historical entries) to map baseline physiological demands across eight major disciplines.
-:::
+```{r}
+#| label: height-trends
+#| fig-width: 9
+#| fig-height: 5
 
-## Project Overview
+library(tidyverse)
 
-Performance enhancement in competitive athletics represents a complex intersection of physiology, pharmacology, and regulatory oversight. Using testing reports from organizations such as the **World Anti-Doping Agency (WADA)** and the **U.S. Anti-Doping Agency (USADA)**, this project analyzes how sample volumes, testing protocols, and adverse analytical findings differ across sports and how these dynamics have evolved over recent decades.
+df <- read_csv("data/olympics.csv.gz", show_col_types = FALSE) |>
+  filter(sport == "Swimming", year >= 1960, !is.na(height)) |>
+  mutate(
+    event_type = case_when(
+      str_detect(event, "50 metres|100 metres") ~ "Sprint (50m/100m)",
+      str_detect(event, "400 metres|800 metres|1,500 metres") ~ "Distance (400m+)",
+      TRUE ~ NA_character_
+    ),
+    sex = if_else(sex == "M", "Men", "Women")
+  ) |>
+  filter(!is.na(event_type))
 
-Understanding anti-doping data requires understanding the athletes themselves: what physical traits and mechanical demands define each discipline, and what incentives might drive athletes toward specific classes of prohibited substances?
+df |>
+  group_by(year, sex, event_type) |>
+  summarize(mean_height = mean(height), .groups = "drop") |>
+  ggplot(aes(x = year, y = mean_height, color = event_type)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2.5) +
+  facet_wrap(~sex, scales = "free_y") +
+  labs(
+    title = "Olympic Swimmers Have Grown Taller, Led by Sprinters",
+    subtitle = "Average height (cm) from 1960 to 2016 for Sprint vs. Distance freestyle events",
+    x = "Olympic Year",
+    y = "Average Height (cm)",
+    color = "Event Type"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "bottom")
+```
 
-## Key Analytical Variables
+Across both men's and women's competitions since 1960, Olympic swimmers have grown taller over time, with sprinters consistently holding a height advantage over distance swimmers.
 
-To evaluate testing regimes and detection rates, our analysis focuses on five primary dimensions:
 
-| Variable | Description | Analytical Purpose |
-|:---|:---|:---|
-| `sport` | Athletic discipline (e.g., athletics, cycling, weightlifting, aquatics) | Compares baseline physiology, testing volume, and positivity rates across sports |
-| `year` | Testing and competition year | Identifies multi-year trends, policy shifts, and improvements in detection sensitivity |
-| `test_type` | In-competition vs. out-of-competition testing | Evaluates detection timing and unannounced surveillance effectiveness |
-| `sample_type` | Biological matrix collected (urine vs. blood) | Accounts for differences in detection windows across substance classes |
-| `adverse_finding` | Binary indicator of an adverse analytical finding (AAF) | Quantifies raw violation counts and calculated positivity percentages |
-
-## Exploratory Graphic: Olympic Body Profiles
-
-To understand the physiological baselines of elite competitors, the visualization below plots height versus weight for eight major Olympic disciplines. The gold cross markers highlight the **median athlete** in each discipline.
-
-![](figures/olympic_profiles.png)
-
-### Dataset Summary
-
-The visualization draws on complete height and weight records from the historical Olympic dataset:
-
-| Sport | Plotted Observations | Primary Physical Profile |
-|:---|:---:|:---|
-| **Athletics** | 32,568 | High variance (sprinters vs. distance vs. throwers) |
-| **Swimming** | 18,796 | Tall, lean, high upper-body leverage |
-| **Gymnastics** | 18,326 | Compact, low body mass, high strength-to-weight ratio |
-| **Cycling** | 7,819 | Tightly clustered, optimized aerobic power-to-weight |
-| **Rowing** | 7,794 | High stature, substantial lean mass for lever power |
-| **Basketball** | 3,675 | Extreme height specialization |
-| **Volleyball** | 3,277 | Tall stature with lean jumping physique |
-| **Weightlifting** | 3,001 | Maximum strength and leverage across weight classes |
-| **Total Plotted** | **95,256** | *Drawn from 271,116 total athlete records* |
-
-### Key Takeaways & Anti-Doping Implications
-
-1. **Biomechanical Specialization**: Each sport clusters in a distinct region of physical trait space. Gymnastics demands a compact center of gravity, while basketball and volleyball select for extreme stature. 
-2. **Dispersion Reflects Sub-disciplines**: Athletics exhibits the largest scatter because track and field spans contrasting physiological extremes—from distance runners requiring low mass to throwers relying on maximum inertia.
-3. **Incentive Alignment for Performance Enhancement**: 
-   - Disciplines requiring raw power and explosive leverage (e.g., weightlifting and sprinting) historically present higher risks for anabolic agents.
-   - Aerobic-demanding endurance sports (e.g., cycling, rowing, distance running) present risks centered on oxygen-transport enhancement, such as erythropoietin (EPO) and blood manipulation.
